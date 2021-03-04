@@ -5,91 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800&display=swap" rel="stylesheet">
 
-	<style>
-	/**
- * Remove the margin in all browsers.
- */
+    <style>
+        /**
+     * Remove the margin in all browsers.
+     */
 
-body {
-  margin: 0;
-}
+        body {
+            margin: 0;
+        }
 
-/**
- * Render the `main` element consistently in IE.
- */
+        /**
+         * Render the `main` element consistently in IE.
+         */
 
-main {
-  display: block;
-}
+        main {
+            display: block;
+        }
 
-	html {
-    box-sizing: border-box;
-}
+        html {
+            box-sizing: border-box;
+        }
 
-*, *::before, *::after {
-    box-sizing: inherit;
-}
+        *, *::before, *::after {
+            box-sizing: inherit;
+        }
 
-p, h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-}
+        p, h1, h2, h3, h4, h5, h6 {
+            margin: 0;
+        }
 
-img {
-    max-width: 100%;
-    height: auto;
-}
+        img {
+            max-width: 100%;
+            height: auto;
+        }
 
-.wrapper {
-    max-width: 600px;
-    margin: 0 auto;
-    overflow: hidden;
-}
+        .wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
 
-.container {
-    width: 100%;
-    height: 100vh;
-}
+        .container {
+            width: 100%;
+            height: 100vh;
+        }
 
-.main-block {
-    width: 100%;
-    height: 100%;
-    padding: 50vh 30px 0 30px;
-    background: url(https://images1.calcalist.co.il/PicServer3/2020/12/13/1043454/11L.jpg) center no-repeat;
-    background-size: cover;
-}
+        .main-block {
+            width: 100%;
+            height: 100%;
+            padding: 50vh 30px 0 30px;
+            background: url(https://images1.calcalist.co.il/PicServer3/2020/12/13/1043454/11L.jpg) center no-repeat;
+            background-size: cover;
+        }
 
-.text-block-1 {
-    margin-bottom: 25px;
-}
+        .text-block-1 {
+            margin-bottom: 25px;
+        }
 
-.text {
-    display: none;
-    font-family: Heebo, Arial, sans-serif;
-    font-size: 1.8vw;
-    font-weight: 800;
-    font-style: normal;
-    line-height: 1.5;
-    letter-spacing: normal;
-    text-align: center;
-    color: #000;
-    background-color: #fff;
-    border-radius: 5px;
-    padding: 2px 9px;
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
-}
+        .text {
+            display: none;
+            font-family: Heebo, Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            font-style: normal;
+            line-height: 1.5;
+            letter-spacing: normal;
+            text-align: center;
+            color: #000;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 2px 9px;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+        }
 
-.text-1.active {
-    display: inline;
-}
+        .text-1.active {
+            display: inline;
+        }
 
-.text-2.active {
-    display: inline;
-}
+        .text-2.active {
+            display: inline;
+        }
+
+        @media screen and (max-width: 375px) {
+            .text {
+                font-size: 20px;
+            }
+        }
 
 
-
-</style>
+    </style>
     <title>Title</title>
 </head>
 <body>
@@ -110,125 +115,124 @@ img {
 
 <script type="text/javascript">
 
-domain_url = "#"
-event_footer = "footer"
-event_next_item = "next"
-is_quiz = 0
-function send_event(event_type, params_dict){
-    url = domain_url
-    url = url + "/"+event_type
-    had_param = false
-    for(var key in params_dict) {
-        if(!had_param){
-            url = url + "?"
-            had_param = true
+    domain_url = "#"
+    event_footer = "footer"
+    event_next_item = "next"
+    is_quiz = 0
+
+    function send_event(event_type, params_dict) {
+        url = domain_url
+        url = url + "/" + event_type
+        had_param = false
+        for (var key in params_dict) {
+            if (!had_param) {
+                url = url + "?"
+                had_param = true
+            } else {
+                url = url + "&"
+            }
+            var value = params_dict[key];
+            url = url + key + "=" + value
         }
-        else{
-            url = url + "&"
-        }
-        var value = params_dict[key];
-        url = url + key + "=" + value
+        window.location.href = url
+
     }
-   window.location.href = url
 
-}
+    function send_move_to_next(delay_millis) {
+        setTimeout(function () {
+            send_event(event_next_item, {});
+        }, delay_millis);
+    }
 
-function send_move_to_next(delay_millis){
-    setTimeout(function() {
-                send_event(event_next_item, {});
-              }, delay_millis);
-}
+    function send_show_footer() {
+        send_event(event_footer, {"action": "show"})
+    }
 
-function send_show_footer(){
-    send_event(event_footer, {"action": "show"})
-}
+    function send_hide_footer() {
+        send_event(event_footer, {"action": "hide"})
+    }
 
-function send_hide_footer(){
-    send_event(event_footer, {"action": "hide"})
-}
+    var is_last_link = 0
 
- var is_last_link = 0
+    window.onload = function () {
+        send_hide_footer()
 
-window.onload = function () {
-    send_hide_footer()
+        const textBlock1 = document.getElementsByClassName('text-1')[0];
+        const textBlock2 = document.getElementsByClassName('text-2')[0];
 
-    const textBlock1 = document.getElementsByClassName('text-1')[0];
-    const textBlock2 = document.getElementsByClassName('text-2')[0];
+        lines = ["\u05d7\u05d1\u05e8 \u05de\u05d1\u05d9\u05d0 \u05d7\u05d1\u05e8 - \u05e9\u05dc\u05d7\u05d5 \u05d4\u05d6\u05de\u05e0\u05d4 \u05d3\u05e8\u05da \u05d4\u05e7\u05d9\u05e9\u05d5\u05e8, \u05d5\u05e7\u05d1\u05dc\u05d5 1000 \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05db\u05e9\u05de\u05d9 \u05e9\u05d4\u05d6\u05de\u05e0\u05ea\u05dd \u05d9\u05d2\u05d9\u05e2 \u05dc1000 \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05d1\u05de\u05e9\u05d7\u05e7.", "\u05e2\u05d5\u05d3 \u05e1\u05e4\u05d9\u05d5\u05e8 \u05d0\u05d7\u05d3 \u05e9\u05dc \u05d0\u05d4\u05d1\u05d4"]
 
-    lines = ["\u05d7\u05d1\u05e8 \u05de\u05d1\u05d9\u05d0 \u05d7\u05d1\u05e8 - \u05e9\u05dc\u05d7\u05d5 \u05d4\u05d6\u05de\u05e0\u05d4 \u05d3\u05e8\u05da \u05d4\u05e7\u05d9\u05e9\u05d5\u05e8, \u05d5\u05e7\u05d1\u05dc\u05d5 1000 \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05db\u05e9\u05de\u05d9 \u05e9\u05d4\u05d6\u05de\u05e0\u05ea\u05dd \u05d9\u05d2\u05d9\u05e2 \u05dc1000 \u05e0\u05e7\u05d5\u05d3\u05d5\u05ea \u05d1\u05de\u05e9\u05d7\u05e7.", "\u05e2\u05d5\u05d3 \u05e1\u05e4\u05d9\u05d5\u05e8 \u05d0\u05d7\u05d3 \u05e9\u05dc \u05d0\u05d4\u05d1\u05d4"]
+        const words1 = lines[0]
+        const words2 = lines[1]
 
-    const words1 = lines[0]
-    const words2 = lines[1]
-
-    var delay = 350 // text appearance delay
+        var delay = 350 // text appearance delay
 
 
-    function anim(block, text, other_blocks, show_footer, is_link) {
+        function anim(block, text, other_blocks, show_footer, is_link) {
 
-        if(is_link > 0){
-            block.classList.add('active');
-            block.innerHTML = text
-            send_show_footer();
-        }
-        else{
-            var words = text.split(" "); // words array
-            var currentIndex = 0; // для хранения очередности интервала
+            if (is_link > 0) {
+                block.classList.add('active');
+                block.innerHTML = text
+                send_show_footer();
+            } else {
+                var words = text.split(" "); // words array
+                var currentIndex = 0; // для хранения очередности интервала
 
-            block.classList.add('active');
+                block.classList.add('active');
 
-            let intervalID = setInterval( function() {
-                var word = words[currentIndex].split(""); // array - отдельные массивы с буквами каждого слова
+                let intervalID = setInterval(function () {
+                    var word = words[currentIndex].split(""); // array - отдельные массивы с буквами каждого слова
 
-                word.forEach((letter, index) => {
+                    word.forEach((letter, index) => {
 
-                    setTimeout(() => {
+                        setTimeout(() => {
 
-                        // встраивание каждой буквы в html
-                        block.append(document.createTextNode(letter));
+                            // встраивание каждой буквы в html
+                            block.append(document.createTextNode(letter));
 
-                        if (word.length == index * 1 + 1) {
-                            block.append(document.createTextNode(" ")); // добавление пробела после слова
-                        }
-
-                    }, index * 25); //letters appearance delay
-                });
-
-                ++currentIndex;
-                if(currentIndex >= words.length) {
-                    clearInterval(intervalID);
-                    if(show_footer){
-                        if(is_quiz > 0){
-                            send_move_to_next(2700);
-                        }
-                        else{
-                            send_show_footer();
-                        }
-                    }
-                    if (other_blocks) {
-                        other_blocks.forEach(item => {
-                        if (item.text){
-                                anim(item.block, item.text, null, true, is_last_link)
+                            if (word.length == index * 1 + 1) {
+                                block.append(document.createTextNode(" ")); // добавление пробела после слова
                             }
-                        })
+
+                        }, index * 25); //letters appearance delay
+                    });
+
+                    ++currentIndex;
+                    if (currentIndex >= words.length) {
+                        clearInterval(intervalID);
+                        if (show_footer) {
+                            if (is_quiz > 0) {
+                                send_move_to_next(2700);
+                            } else {
+                                send_show_footer();
+                            }
+                        }
+                        if (other_blocks) {
+                            other_blocks.forEach(item => {
+                                if (item.text) {
+                                    anim(item.block, item.text, null, true, is_last_link)
+                                }
+                            })
+                        }
                     }
-                }
 
-            }, delay);
+                }, delay);
+            }
         }
-    }
-    show_footer=true
-    if(words2){
-        show_footer=false
-    }
-    anim(textBlock1, words1, [
-        {
-            block: textBlock2,
-            text: words2,
+
+        show_footer = true
+        if (words2) {
+            show_footer = false
         }
-    ], show_footer, 0);
+        anim(textBlock1, words1, [
+            {
+                block: textBlock2,
+                text: words2,
+            }
+        ], show_footer, 0);
 
 
-}
+    }
 
 </script>
 </body>
